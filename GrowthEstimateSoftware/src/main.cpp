@@ -1,7 +1,7 @@
 
 //"Neural computational model GrowthEstimate"
 
-//The GrowthEstimate software has been deveveloped by Poramate //Manoonpong and Timon Tom·s (University of Southern Denmark, //contact: poma@mmmi.sdu.dk).
+//The GrowthEstimate software has been deveveloped by Poramate //Manoonpong and Timon Tom√°s (University of Southern Denmark, //contact: poma@mmmi.sdu.dk).
 
 //It based on the self-adaptive reservoir framework [1], //originally developed by S. Dasgupta (Neuri Pte Ltd., contact: //sakya@neuri.ai):
 
@@ -22,24 +22,24 @@ int main( int argc, char ** argv ) {
 
         //Input data
 
-    	string inputPath                    = "resources/smallsalmon/Input12.txt";
-        string targetPath                   = "resources/smallsalmon/Target.txt";
+	string inputPath                    = "resources/Data1_Atlantic_salmon_at_juvenile_stage/Input123_499Data.txt";
+ 	string targetPath                   = "resources/Data1_Atlantic_salmon_at_juvenile_stage/Target_499Data.txt";
 	string resultPath                   = "results/result.txt";
         string saveDir                      = "save_files/";
         unsigned int saveNum                = 1;
-        unsigned int numberOfInputs         = 2;
+        unsigned int numberOfInputs         = 3;
         unsigned int numberOfOutputs        = 1;
-        unsigned int numberOfHiddenUnits    = 70;
+        unsigned int numberOfHiddenUnits    = 50;
         unsigned int learningMode           = 1;
-        unsigned int internalNonlinearity   = 1;
-        unsigned int outputNonlinearity     = 2; //0 = linear, 1 = sigmoid (logistic), 2  = tanh:
+        unsigned int internalNonlinearity   = 2;
+        unsigned int outputNonlinearity     = 0; //0 = linear, 1 = sigmoid (logistic), 2  = tanh:
         double inputSparsity                = 50.0;
         double internalSparsity             = 50.0;
         double learningRate                 = 0.99;
         double leak                         = 0.3;
-        double percentage_1                 = 50; //  85% of total data for "training" (save)
-        double percentage_2                 = 100.0; // 100% of the remaining data (15% of total) for "validationUnits" (save & final) and another 0% of the remaining data (15% of total)  for "testing" (not use!)
-        unsigned int repetition             = 2;
+        double percentage_1                 = 70; //  70% of total data for "training" (save)
+        double percentage_2                 = 100.0; 
+        unsigned int repetition             = 5;
         unsigned int iterationLimit         = 500000;
         unsigned int verboseLevel           = 1;
         char delimiter                      = '\t';
