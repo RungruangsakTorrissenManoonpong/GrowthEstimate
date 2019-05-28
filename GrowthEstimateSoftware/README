@@ -1,0 +1,141 @@
+
+"Neural computational model GrowthEstimate"
+
+The GrowthEstimate software has been deveveloped by Poramate Manoonpong and Timon Tomás (University of Southern Denmark, contact: poma@mmmi.sdu.dk).
+
+It is based on the self-adaptive reservoir framework [1], originally developed by S. Dasgupta (Neuri Pte Ltd., contact: sakya@neuri.ai):
+
+[1] Dasgupta, S.; Woergoetter, F.; Manoonpong, P. (2012) Information Theoretic Self-Organised Adaptation in Reservoirs for Temporal Memory Tasks. 13th Engineering Applications of Neural Network Conference (EANN2012), London, UK, CCIS 311, pp. 31-40.
+
+To use the GrowthEstimate software, please follow the steps:
+
+i) Please install the MOROCO [2] and Lpzrobots [3] environments as follows:
+
+[2] Hesse, F.; Martius, G.; Manoonpong, P.; Biehl, M.; Wörgötter, F. (2012) Modular Robot Control Environment – Testing Neural Control on Simulated and Real Robots. Frontiers in Computational Neuroscience, Conference Abstract: Bernstein Conference 2012. doi: 10.3389/conf.fncom.2012.55.00179
+
+[3] http://robot.informatik.uni-leipzig.de/software/ [https://github.com/georgmartius/lpzrobots]
+
+#######################################################
+#  Assuming a clean install of Ubuntu 
+#  Xenial Xerus 16.04 LTS OR
+#  Bionic Beaver 18.04 LTS
+#######################################################
+
+1. Open a new terminal.
+	<CTRL+ALT+T>
+
+2. Create a new directory under your home directory:
+	$ mkdir workspace
+
+3. Go into the new workspace folder:
+	$ cd workspace
+	
+4. Install git:
+	$ sudo apt-get install git
+
+5. Clone repositories
+	$ git clone https://github.com/pmanoonpong/gorobots_edu.git
+	$ git clone https://github.com/pmanoonpong/lpzrobots.git
+
+6. Install dependencies:
+	$ sudo apt-get install g++  make  automake libtool xutils-dev m4  libreadline-dev  libgsl0-dev libglu-dev libgl1-mesa-dev freeglut3-dev  libopenscenegraph-dev libqt4-dev libqt4-opengl libqt4-opengl-dev qt4-qmake  libqt4-qt3support gnuplot gnuplot-x11 libncurses5-dev libgl1-mesa-dev
+
+7. Update path:
+	$ export PATH=/home/<user>/bin:$PATH
+	$ source ~/.bashrc
+
+8. Build LPZ robots:
+	$ cd lpzrobots
+	$ make all -j4
+
+9. When asked where to install it, say: 
+	/home/<user>
+
+10. When asked if you want developer mode (d), 
+	say 'd' and confirm with 'y'
+
+10a.You might be asked for your sudo password
+	during the compile time.
+
+11. Make symbolic link to the library
+	$ sudo ln -sf /home/<user>/workspace/lpzrobots/opende/ode/src/.libs/libode_dbl.so.1 /lib/libode_dbl.so.1
+
+12. Compile gorobots
+	$ cd ~/workspace
+	$ cp lpzrobots/ode_robots/simulations/template_amosii/Makefile gorobots_edu/practices/amosii
+	$ cd gorobots_edu/practices/amosii
+	$ make
+	$ ./start
+
+You should now have a window with the hexapod simulation running.
+If the window is black, press RETURN
+To drop the robot into the environment, press 'x'
+
+///////////////////////////////////////////////////////////////
+
+
+ii) After installation, you will have to place the "GrowthEstimateSoftware" folder in "gorobots_edu"
+
+
+iii) Link the file in Makefile.conf
+
+
+
+///////////////////////////////////////////////////////////////
+
+To use the GrowthRate model
+
+1) Prepare your data into two files: input file and target file and put them into the resources folder
+
+For example, in the resources folder, 
+
+there are:
+the input file--> "\resources\Data1_Atlantic_salmon_at_juvenile_stage\Input123_499Data.txt" 
+
+the target or desired output file--> "\resources\Data1_Atlantic_salmon_at_juvenile_stage\Target_499Data.txt"
+
+The input file contains --> 3 inputs
+
+Column1 = Input1 ! Column2 = Input2 ! Column3 = Input3
+
+The target file contains --> one output
+
+Column1 = output of the network
+
+Note that the first part of the data will be used to train and the remaining part will be used to test the trained model!
+
+
+2) Open 'main.cpp' in the src folder
+  
+-Set the path to the input and target files
+  
+  
+ string inputPath                    = "resources/Data1_Atlantic_salmon_at_juvenile_stage/Input123_499Data.txt";
+
+ string targetPath                   = "resources/Data1_Atlantic_salmon_at_juvenile_stage/Target_499Data.txt";
+
+-Set number of input, output, and hidden neurons
+ 
+ unsigned int numberOfInputs         = 3;
+ unsigned int numberOfOutputs        = 1;
+ unsigned int numberOfHiddenUnits    = 50;
+ 
+ 
+-Set learning parameters 
+   double inputSparsity                = 50.0;
+   double internalSparsity             = 50.0;
+   double learningRate                 = 0.99;
+   double leak                         = 1.0; //0.3
+      
+-Sat how many data points you want to use for training  
+
+For example,    
+      
+double percentage_1                 = 13.0; //  85% of total data for "training" (save)
+
+This means that 13 % of total data points will be used to train the RC network and the remaining data points 87% will be used to test the network
+
+
+3) All weights after learning will be saved in the save_files folder
+
+4) The output data of the network, Target data, and error data will be saved in the results folder
